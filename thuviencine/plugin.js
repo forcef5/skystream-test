@@ -104,18 +104,33 @@ async function getTmdbDetails(id, type) {
 }
 
 // Parse listing page using parseHtml (native DOM bridge)
+// ThuVienCine uses <a title="..." href="/phim-..."> with nested <img>, NOT <article> tags
 async function parseListPage(html) {
     const items = [];
     try {
         const doc = await parseHtml(html);
-        const articles = doc.querySelectorAll("article");
-        for (const art of articles) {
-            const a = art.querySelector("h3 a") || art.querySelector("a[title]") || art.querySelector("a");
-            if (!a) continue;
-            const href = a.getAttribute("href");
-            const title = a.getAttribute("title") || a.textContent.trim();
+        // Try article tags first (fallback), then a[title] tags (thuviencine's actual structure)
+        let elements = doc.querySelectorAll("article");
+        if (!elements || elements.length === 0) {
+            elements = doc.querySelectorAll("a[title]");
+        }
+        for (const el of elements) {
+            let href, title, img;
+            if (el.tagName && el.tagName.toLowerCase() === 'a') {
+                // Direct <a> tag structure (thuviencine.com)
+                href = el.getAttribute("href");
+                title = el.getAttribute("title") || el.textContent.trim();
+                img = el.querySelector("img");
+            } else {
+                // <article> tag structure (fallback)
+                const a = el.querySelector("h3 a") || el.querySelector("a[title]") || el.querySelector("a");
+                if (!a) continue;
+                href = a.getAttribute("href");
+                title = a.getAttribute("title") || a.textContent.trim();
+                img = el.querySelector("img");
+            }
             if (!href || !title) continue;
-            const img = art.querySelector("img");
+            if (!href.includes("/phim-") && !href.includes("/movies/") && !href.includes("/tv-series/")) continue;
             const poster = img ? (img.getAttribute("data-src") || img.getAttribute("data-lazy-src") || img.getAttribute("src")) : null;
             const yearM = title.match(/\b(19|20)\d{2}\b/);
             const type = (href.includes("/tv-series/") || href.includes("-season-")) ? "series" : "movie";
