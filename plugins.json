@@ -3,7 +3,7 @@
         "packageName": "com.cloudstreamvn.thuviencine",
         "name": "ThuVienCine",
         "version": 1,
-        "url": "https://raw.githubusercontent.com/forcef5/skystream-test/main/thuviencine/plugin.js",
+        "url": "https://raw.githubusercontent.com/forcef5/skystream-test/main/thuviencine.sky",
         "baseUrl": "https://thuviencine.com",
         "description": "Phim Việt Nam chất lượng cao từ ThuVienCine – Yêu cầu tài khoản Fshare VIP. Cấu hình Fshare trong ⚙️ Domains: đổi URL thành https://thuviencine.com?fshare=email:password",
         "authors": [
@@ -33,7 +33,7 @@
         "packageName": "com.cloudstreamvn.thuvienhd",
         "name": "ThuVienHD",
         "version": 1,
-        "url": "https://raw.githubusercontent.com/forcef5/skystream-test/main/thuvienhd/plugin.js",
+        "url": "https://raw.githubusercontent.com/forcef5/skystream-test/main/thuvienhd.sky",
         "baseUrl": "https://thuvienhd.top",
         "description": "Phim HD chất lượng cao từ ThuVienHD – Yêu cầu tài khoản Fshare VIP. Cấu hình Fshare trong ⚙️ Domains: đổi URL thành https://thuvienhd.top?fshare=email:password",
         "authors": [

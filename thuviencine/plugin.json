@@ -3,7 +3,7 @@
     "name": "ThuVienCine",
     "version": 1,
     "baseUrl": "https://thuviencine.com",
-    "description": "Phim Việt Nam chất lượng cao từ ThuVienCine – Yêu cầu tài khoản Fshare VIP. Cấu hình Fshare trong phần Domains (⚙️): sửa URL thành https://thuviencine.com?fshare=email:password",
+    "description": "Phim Việt Nam chất lượng cao từ ThuVienCine – Yêu cầu tài khoản Fshare VIP. Cấu hình Fshare trong ⚙️ Domains: đổi URL thành https://thuviencine.com?fshare=email:password",
     "authors": [
         "cloudstreamvn"
     ],
@@ -15,6 +15,7 @@
         "TV Shows"
     ],
     "iconUrl": "https://thuviencine.com/favicon.ico",
+    "status": 1,
     "domains": [
         {
             "name": "thuviencine.com (Mặc định)",
