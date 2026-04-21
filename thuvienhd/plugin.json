@@ -1,0 +1,28 @@
+{
+    "packageName": "com.cloudstreamvn.thuvienhd",
+    "name": "ThuVienHD",
+    "version": 1,
+    "baseUrl": "https://thuvienhd.top",
+    "description": "Phim HD chất lượng cao từ ThuVienHD – Yêu cầu tài khoản Fshare VIP. Cấu hình Fshare trong phần Domains (⚙️): sửa URL thành https://thuvienhd.top?fshare=email:password",
+    "authors": [
+        "cloudstreamvn"
+    ],
+    "languages": [
+        "vi"
+    ],
+    "categories": [
+        "Movies",
+        "TV Shows"
+    ],
+    "iconUrl": "https://thuvienhd.top/favicon.ico",
+    "domains": [
+        {
+            "name": "thuvienhd.top (Mặc định)",
+            "url": "https://thuvienhd.top"
+        },
+        {
+            "name": "▶ Cấu hình Fshare – sửa email:password",
+            "url": "https://thuvienhd.top?fshare=your_email@gmail.com:your_password"
+        }
+    ]
+}
