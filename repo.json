@@ -1,31 +1,12 @@
 {
-  "name": "Vietnamese Plugins",
-  "description": "Plugins cho phim Việt Nam - ThuVienCine và ThuVienHD sử dụng Fshare VIP",
-  "authors": ["cloudstreamvn"],
-  "plugins": [
-    {
-      "packageName": "com.cloudstreamvn.thuviencine",
-      "name": "ThuVienCine",
-      "version": 1,
-      "baseUrl": "https://thuviencine.com",
-      "description": "Phim Việt Nam chất lượng cao từ ThuVienCine - Yêu cầu tài khoản Fshare VIP",
-      "authors": ["cloudstreamvn"],
-      "languages": ["vi"],
-      "categories": ["Movies", "TV Shows"],
-      "iconUrl": "https://thuviencine.com/favicon.ico",
-      "fileUrl": "thuviencine/plugin.js"
-    },
-    {
-      "packageName": "com.cloudstreamvn.thuvienhd",
-      "name": "ThuVienHD",
-      "version": 1,
-      "baseUrl": "https://thuvienhd.top",
-      "description": "Phim HD chất lượng cao từ ThuVienHD - Yêu cầu tài khoản Fshare VIP",
-      "authors": ["cloudstreamvn"],
-      "languages": ["vi"],
-      "categories": ["Movies", "TV Shows"],
-      "iconUrl": "https://thuvienhd.top/favicon.ico",
-      "fileUrl": "thuvienhd/plugin.js"
-    }
-  ]
+    "name": "Vietnamese Plugins",
+    "packageName": "com.cloudstreamvn.repo",
+    "description": "Plugins cho phim Việt Nam - ThuVienCine và ThuVienHD sử dụng Fshare VIP",
+    "authors": [
+        "cloudstreamvn"
+    ],
+    "manifestVersion": 1,
+    "pluginLists": [
+        "https://raw.githubusercontent.com/forcef5/skystream-test/main/plugins.json"
+    ]
 }

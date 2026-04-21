@@ -1,0 +1,62 @@
+[
+    {
+        "packageName": "com.cloudstreamvn.thuviencine",
+        "name": "ThuVienCine",
+        "version": 1,
+        "url": "https://raw.githubusercontent.com/forcef5/skystream-test/main/thuviencine/plugin.js",
+        "baseUrl": "https://thuviencine.com",
+        "description": "Phim Việt Nam chất lượng cao từ ThuVienCine – Yêu cầu tài khoản Fshare VIP. Cấu hình Fshare trong ⚙️ Domains: đổi URL thành https://thuviencine.com?fshare=email:password",
+        "authors": [
+            "cloudstreamvn"
+        ],
+        "languages": [
+            "vi"
+        ],
+        "categories": [
+            "Movies",
+            "TV Shows"
+        ],
+        "iconUrl": "https://thuviencine.com/favicon.ico",
+        "status": 1,
+        "domains": [
+            {
+                "name": "thuviencine.com (Mặc định)",
+                "url": "https://thuviencine.com"
+            },
+            {
+                "name": "▶ Cấu hình Fshare – sửa email:password",
+                "url": "https://thuviencine.com?fshare=your_email@gmail.com:your_password"
+            }
+        ]
+    },
+    {
+        "packageName": "com.cloudstreamvn.thuvienhd",
+        "name": "ThuVienHD",
+        "version": 1,
+        "url": "https://raw.githubusercontent.com/forcef5/skystream-test/main/thuvienhd/plugin.js",
+        "baseUrl": "https://thuvienhd.top",
+        "description": "Phim HD chất lượng cao từ ThuVienHD – Yêu cầu tài khoản Fshare VIP. Cấu hình Fshare trong ⚙️ Domains: đổi URL thành https://thuvienhd.top?fshare=email:password",
+        "authors": [
+            "cloudstreamvn"
+        ],
+        "languages": [
+            "vi"
+        ],
+        "categories": [
+            "Movies",
+            "TV Shows"
+        ],
+        "iconUrl": "https://thuvienhd.top/favicon.ico",
+        "status": 1,
+        "domains": [
+            {
+                "name": "thuvienhd.top (Mặc định)",
+                "url": "https://thuvienhd.top"
+            },
+            {
+                "name": "▶ Cấu hình Fshare – sửa email:password",
+                "url": "https://thuvienhd.top?fshare=your_email@gmail.com:your_password"
+            }
+        ]
+    }
+]
