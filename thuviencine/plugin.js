@@ -200,28 +200,55 @@ async function load(url, cb) {
         for (const g of genreLinks) { const t = g.textContent.trim(); if (t) tags.push(t); }
 
         // Fshare links
-        const fshareLinks = [];
-        const allLinks = doc.querySelectorAll("a[href*='fshare.vn']");
-        for (const l of allLinks) {
+        const fshareEntries = [];
+        const allFsLinks = doc.querySelectorAll("a[href*='fshare.vn']");
+        for (const l of allFsLinks) {
             const h = l.getAttribute("href");
-            if (h && !fshareLinks.includes(h)) fshareLinks.push(h);
+            if (h && !fshareEntries.some(e => e.url === h)) {
+                const fn = l.textContent.trim() || h.split("/").pop();
+                fshareEntries.push({ url: h, fileName: fn, fileSize: "" });
+            }
+        }
+        // Table rows with size info
+        const rows = doc.querySelectorAll("tr");
+        for (const row of rows) {
+            const a = row.querySelector("a[href*='fshare.vn']");
+            if (!a) continue;
+            const h = a.getAttribute("href");
+            const nameEl = row.querySelector("span");
+            const fn = nameEl ? nameEl.textContent.trim() : h.split("/").pop();
+            const sizeM = row.textContent.match(/\b([\d.,]+)\s*(GB|MB|KB|TB)\b/i);
+            const sz = sizeM ? sizeM[1] + " " + sizeM[2] : "";
+            const existing = fshareEntries.find(e => e.url === h);
+            if (existing) { if (sz) existing.fileSize = sz; if (fn && fn !== h.split("/").pop()) existing.fileName = fn; }
+            else fshareEntries.push({ url: h, fileName: fn, fileSize: sz });
         }
 
         // Check download page
-        if (fshareLinks.length === 0) {
-            const dlLink = doc.querySelector("a[href*='/download?id=']");
+        if (fshareEntries.length === 0) {
+            const dlLink = doc.querySelector("a[href*='/download']");
             if (dlLink) {
                 try {
                     const dlUrl = dlLink.getAttribute("href");
-                    const fullDl = dlUrl.startsWith("http") ? dlUrl : base() + dlUrl;
+                    const baseUrl = base();
+                    let fullDl = dlUrl;
+                    if (!dlUrl.startsWith("http")) {
+                        fullDl = (baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl) + (dlUrl.startsWith("/") ? "" : "/") + dlUrl;
+                    }
                     const dlHtml = await httpGet(fullDl, { Referer: url });
                     const dlDoc = await parseHtml(dlHtml);
                     const dlFs = dlDoc.querySelectorAll("a[href*='fshare.vn']");
-                    for (const l of dlFs) { const h = l.getAttribute("href"); if (h && !fshareLinks.includes(h)) fshareLinks.push(h); }
+                    for (const l of dlFs) {
+                        const h = l.getAttribute("href");
+                        if (h && !fshareEntries.some(e => e.url === h)) {
+                            fshareEntries.push({ url: h, fileName: l.textContent.trim() || h.split("/").pop(), fileSize: "" });
+                        }
+                    }
                 } catch (_) { }
             }
         }
 
+        const fshareLinks = fshareEntries.map(e => e.url);
         const hasFolders = fshareLinks.some(l => l.includes("/folder/"));
         const isSeries = url.includes("/tv-series/") || hasFolders || fshareLinks.length > 1
             || doc.querySelector(".episodios") != null || tags.some(t => t.toLowerCase().includes("phim bộ"));
@@ -252,7 +279,7 @@ async function load(url, cb) {
         if (isSeries) {
             const episodes = [];
             const folderLinks = fshareLinks.filter(l => l.includes("/folder/"));
-            const fileLinks = fshareLinks.filter(l => !l.includes("/folder/"));
+            const fileEntries = fshareEntries.filter(e => !e.url.includes("/folder/"));
             let si = 1;
             for (const rootFolder of folderLinks) {
                 try {
@@ -265,12 +292,12 @@ async function load(url, cb) {
                     if (files.length) si++;
                 } catch (_) { episodes.push(new Episode({ name: "📁 Phần " + si, season: si++, episode: 1, url: rootFolder })); }
             }
-            fileLinks.forEach((link, idx) => {
-                episodes.push(new Episode({ name: "Link " + (idx + 1), season: folderLinks.length ? si : 1, episode: idx + 1, url: link }));
+            fileEntries.forEach((entry, idx) => {
+                episodes.push(new Episode({ name: entry.fileName, season: folderLinks.length ? si : 1, episode: idx + 1, url: entry.url + "|||" + entry.fileSize + "|||" + entry.fileName, description: entry.fileSize ? "(" + entry.fileSize + ") - " + entry.fileName : entry.fileName }));
             });
             cb({ success: true, data: new MultimediaItem({ title, url, type: "series", posterUrl: fP, bannerUrl: fB, description: fPlot, year: fYear, score: tmdbScore, tags: fTags, cast: fActors, recommendations: fRecs, episodes }) });
         } else {
-            const refs = fshareLinks.map((fl, i) => ({ url: fl, name: "Link " + (i + 1) }));
+            const refs = fshareEntries.map(e => ({ url: e.url, name: e.fileName }));
             const dataUrl = refs.length > 0 ? "__FSHARE__" + JSON.stringify(refs) : url;
             cb({ success: true, data: new MultimediaItem({ title, url: dataUrl, type: "movie", posterUrl: fP, bannerUrl: fB, description: fPlot, year: fYear, score: tmdbScore, tags: fTags, cast: fActors, recommendations: fRecs }) });
         }
